@@ -1,16 +1,16 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 const photos = [
-  '/assets/photo_2026-06-01_18-38-09.jpg',
-  '/assets/photo_2026-06-01_18-38-06.jpg',
-  '/assets/photo_2026-06-01_18-38-07.jpg',
-  '/assets/photo_2026-06-01_18-38-08.jpg',
-  '/assets/photo_2026-06-01_18-38-10.jpg',
-  '/assets/photo_2026-06-01_18-38-11.jpg',
-  '/assets/photo_2026-06-01_18-38-12.jpg',
-  '/assets/photo_2026-06-01_18-38-13.jpg',
-  '/assets/photo_2026-06-01_18-38-13 (2).jpg',
-  '/assets/photo_2026-06-01_18-38-14.jpg',
+  new URL('../assets/photo_2026-06-01_18-38-09.jpg', import.meta.url).href,
+  new URL('../assets/photo_2026-06-01_18-38-06.jpg', import.meta.url).href,
+  new URL('../assets/photo_2026-06-01_18-38-07.jpg', import.meta.url).href,
+  new URL('../assets/photo_2026-06-01_18-38-08.jpg', import.meta.url).href,
+  new URL('../assets/photo_2026-06-01_18-38-10.jpg', import.meta.url).href,
+  new URL('../assets/photo_2026-06-01_18-38-11.jpg', import.meta.url).href,
+  new URL('../assets/photo_2026-06-01_18-38-12.jpg', import.meta.url).href,
+  new URL('../assets/photo_2026-06-01_18-38-13.jpg', import.meta.url).href,
+  new URL('../assets/photo_2026-06-01_18-38-13 (2).jpg', import.meta.url).href,
+  new URL('../assets/photo_2026-06-01_18-38-14.jpg', import.meta.url).href,
 ];
 
 const tabs = [
@@ -184,6 +184,7 @@ function App() {
   const [quizDone, setQuizDone] = useState(false);
   const [companySaved, setCompanySaved] = useState(false);
   const audioRef = useRef(null);
+  const activeSectionRef = useRef(null);
 
   const score = useMemo(
     () => questions.reduce((total, question, index) => total + (quizAnswers[index] === question[2] ? 1 : 0), 0),
@@ -272,6 +273,14 @@ function App() {
     }
   }
 
+  function selectTab(index) {
+    setActive(index);
+    playTone(380 + index * 35, 0.04);
+    window.setTimeout(() => {
+      activeSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 0);
+  }
+
   return (
     <div className="noise min-h-screen">
       <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
@@ -308,10 +317,7 @@ function App() {
             {tabs.map((tab, index) => (
               <button
                 key={tab}
-                onClick={() => {
-                  setActive(index);
-                  playTone(380 + index * 35, 0.04);
-                }}
+                onClick={() => selectTab(index)}
                 className={`rounded-full border px-4 py-2 text-sm font-extrabold transition ${
                   active === index
                     ? 'border-neonPink bg-neonPink text-void shadow-pink'
@@ -328,7 +334,7 @@ function App() {
       <main className="relative z-10 mx-auto max-w-7xl px-4 pb-16 pt-36">
         <Hero salary={salary} hiddenClick={hiddenClick} />
         <FactTicker />
-        <section className="mt-8">
+        <section ref={activeSectionRef} className="mt-8 scroll-mt-36 md:scroll-mt-40">
           {active === 0 && (
             <Dashboard
               salary={salary}
