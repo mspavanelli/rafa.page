@@ -1,0 +1,104 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  background: #08071f;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-width: 320px;
+  margin: 0;
+  overflow-x: hidden;
+  background:
+    radial-gradient(circle at 18% 8%, rgba(255, 47, 214, .32), transparent 24rem),
+    radial-gradient(circle at 82% 4%, rgba(0, 213, 255, .28), transparent 24rem),
+    linear-gradient(135deg, #08071f 0%, #110839 46%, #060b2b 100%);
+  color: #fff;
+  font-family: Inter, system-ui, sans-serif;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.noise::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: .2;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, .06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, .04) 1px, transparent 1px);
+  background-size: 38px 38px;
+  mask-image: linear-gradient(to bottom, black, transparent 88%);
+}
+
+.tab-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #ff2fd6 rgba(255, 255, 255, .08);
+}
+
+.glass {
+  border: 1px solid rgba(255, 255, 255, .15);
+  background: linear-gradient(135deg, rgba(255, 255, 255, .13), rgba(255, 255, 255, .05));
+  box-shadow: 0 22px 70px rgba(0, 0, 0, .35);
+  backdrop-filter: blur(18px);
+}
+
+.neon-text {
+  text-shadow:
+    0 0 14px rgba(0, 213, 255, .9),
+    0 0 30px rgba(255, 47, 214, .75);
+}
+
+.wiki-copy p {
+  margin-bottom: .9rem;
+}
+
+.confetti {
+  position: fixed;
+  top: -20px;
+  z-index: 80;
+  width: 10px;
+  height: 18px;
+  border-radius: 2px;
+  animation: confettiFall var(--fall, 2.8s) linear forwards;
+}
+
+@keyframes confettiFall {
+  to {
+    transform: translate3d(var(--drift, 40px), 110vh, 0) rotate(720deg);
+    opacity: .2;
+  }
+}
+
+.chart-down {
+  clip-path: polygon(0 34%, 18% 45%, 30% 39%, 46% 57%, 61% 52%, 78% 73%, 100% 86%, 100% 100%, 0 100%);
+}
+
+.scanline {
+  animation: scan 2.6s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
